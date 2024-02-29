@@ -1,5 +1,6 @@
 package com.thembaonrender.jakchain;
 
+import com.thembaonrender.jakchain.utils.StringUtil;
 import java.util.Date;
 import java.security.MessageDigest;
 
@@ -10,9 +11,16 @@ public class Block {
     private Long timeStamp;
 
     public Block(String hash, String previuosHash, String data, Long timeStamp) {
-        this.hash = hash;
         this.previuosHash = previuosHash;
         this.data = data;
         this.timeStamp = new Date().getTime();
+        this.hash = calculateHash();
+    }
+    
+    public String calculateHash(){
+        String calculatedHash = StringUtil.applySha256(
+        previuosHash+Long.toString(timeStamp)+data
+        );
+        return calculatedHash;
     }
 }
